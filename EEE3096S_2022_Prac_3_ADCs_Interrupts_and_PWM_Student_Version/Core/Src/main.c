@@ -433,6 +433,7 @@ void EXTI0_1_IRQHandler(void)
 		{
 			delay=1000;
 		}
+		bounce = HAL_GetTick();
 	}
 
 	HAL_GPIO_EXTI_IRQHandler(B1_Pin); // Clear interrupt flags
