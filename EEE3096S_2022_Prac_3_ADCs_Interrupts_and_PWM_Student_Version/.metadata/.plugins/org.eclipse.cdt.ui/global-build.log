@@ -1,0 +1,44 @@
+08:43:52 **** Incremental Build of configuration Debug for project EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F051x8 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'debugPrintln':
+../Core/Src/main.c:121:52: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+  121 |    HAL_UART_Transmit(uart_handle, (uint8_t *) _out,strlen(_out), 60);
+      |                                                    ^~~~~~
+../Core/Src/main.c:121:52: warning: incompatible implicit declaration of built-in function 'strlen'
+../Core/Src/main.c:24:1: note: include '<string.h>' or provide a declaration of 'strlen'
+   23 | #include "main.h"
+  +++ |+#include <string.h>
+   24 | 
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:136:4: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  136 |    sprintf(buffer, "%lu", HAL_GetTick() );
+      |    ^~~~~~~
+../Core/Src/main.c:136:4: warning: incompatible implicit declaration of built-in function 'sprintf'
+../Core/Src/main.c:24:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   23 | #include "main.h"
+  +++ |+#include <stdio.h>
+   24 | 
+../Core/Src/main.c:144:25: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  144 |      sprintf(buffer, "%6d", AdcVal);
+      |                       ~~^   ~~~~~~
+      |                         |   |
+      |                         int uint32_t {aka long unsigned int}
+      |                       %6ld
+../Core/Src/main.c:150:23: warning: format '%d' expects argument of type 'int', but argument 3 has type 'uint32_t' {aka 'long unsigned int'} [-Wformat=]
+  150 |    sprintf(buffer, "%6d", CrrVal);
+      |                     ~~^   ~~~~~~
+      |                       |   |
+      |                       int uint32_t {aka long unsigned int}
+      |                     %6ld
+arm-none-eabi-gcc -o "EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\projects\3096S-Pracs\EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version\EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version\STM32F051R8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version.elf
+ 
+arm-none-eabi-size   EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version.elf 
+arm-none-eabi-objdump -h -S  EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version.elf  > "EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version.list"
+   text	   data	    bss	    dec	    hex	filename
+  20516	    124	   2004	  22644	   5874	EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version.elf
+Finished building: default.size.stdout
+ 
+Finished building: EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version.list
+ 
