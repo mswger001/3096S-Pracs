@@ -92,3 +92,8 @@ localhost:61234: Connection timed out.
 java.lang.Exception: localhost:61234: Connection timed out.
 	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
 	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+
+!ENTRY org.eclipse.core.resources 2 2 2022-09-20 08:55:14.229
+!MESSAGE Save operation warnings.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2022-09-20 08:55:14.229
+!MESSAGE The project description file (.project) for 'EEE3096S_2022_Prac_3_ADCs_Interrupts_and_PWM_Student_Version' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.

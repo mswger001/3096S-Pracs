@@ -58,7 +58,7 @@ char buffer[10];
 //TASK 1
 //Create global variables for debouncing and delay interval
 uint32_t delay=1000;
-uint32_t Bounce = 0;
+uint32_t bounce = 0;
 int ccr_val;
 
 /* USER CODE END PV */
@@ -424,12 +424,16 @@ void EXTI0_1_IRQHandler(void)
 	//TASK 1
 	//Switch delay frequency
 
-
-		if(delay==2000){
+	if((HAL_GetTick()- bounce)>10){
+		if(delay==2000)
+		{
 		delay=1000;
 		}
 		else
-		{delay=1000;}
+		{
+			delay=1000;
+		}
+	}
 
 	HAL_GPIO_EXTI_IRQHandler(B1_Pin); // Clear interrupt flags
 }
