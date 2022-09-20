@@ -53,9 +53,13 @@ DMA_HandleTypeDef hdma_usart2_tx;
 /* USER CODE BEGIN PV */
 char buffer[10];
 
+
 //TO DO:
 //TASK 1
 //Create global variables for debouncing and delay interval
+uint32_t delay=1000;
+uint32_t Bounce = 0;
+int ccr_val;
 
 /* USER CODE END PV */
 
@@ -111,9 +115,18 @@ int main(void)
   MX_ADC_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  void debugPrintln(UART_HandleTypeDef *uart_handle,char _out[])
+  {
+  	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8);
+  	HAL_UART_Transmit(uart_handle, (uint8_t *) _out,strlen(_out), 60);
+  	char newline[2] = "\r\n";
+  	HAL_UART_Transmit(uart_handle, (uint8_t *)newline, 2, 10);
 
+  }
   //TO DO:
   //Create variables needed in while loop
+  uint32_t AdcVal;
+  uint32_t CrrVal;
 
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4); //Start the PWM on TIM3 Channel 4 (Green LED)
   /* USER CODE END 2 */
@@ -122,18 +135,28 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+	 	 //HAL_UART_Transmit(&huart2, str, sizeof(str), 1000);
+
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8); // Toggle blue LED
 	  //TO DO:
 	  //TASK 2
 	  //Test your pollADC function and display via UART
+	      AdcVal = pollADC();
+	 	  sprintf(buffer, "%6d", AdcVal);
+	 	  debugPrintln(&huart2, buffer);
 
 	  //TASK 3
 	  //Test your ADCtoCRR function. Display CRR value via UART
+	 	  CrrVal = ADCtoCRR(AdcVal);
+	 	  sprintf(buffer, "%6d", CrrVal);
+	 	  debugPrintln(&huart2, buffer);
 
 	  //TASK 4
 	  //Complete rest of implementation
+	 	 __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_4, ADCtoCRR(AdcVal));
 
-	  HAL_Delay (500); // wait for 500 ms
+	  HAL_Delay (delay);
 
     /* USER CODE END WHILE */
 
@@ -401,6 +424,13 @@ void EXTI0_1_IRQHandler(void)
 	//TASK 1
 	//Switch delay frequency
 
+
+		if(delay==2000){
+		delay=1000;
+		}
+		else
+		{delay=1000;}
+
 	HAL_GPIO_EXTI_IRQHandler(B1_Pin); // Clear interrupt flags
 }
 
@@ -408,6 +438,10 @@ uint32_t pollADC(void){
 	//TO DO:
 	//TASK 2
 	// Complete the function body
+	HAL_ADC_Start(&hadc); //start ADC
+	HAL_ADC_PollForConversion(&hadc,1000); //timeout=1s
+	uint32_t val=HAL_ADC_GetValue(&hadc);
+	HAL_ADC_Stop(&hadc);
 	return val;
 }
 
@@ -418,7 +452,7 @@ uint32_t ADCtoCRR(uint32_t adc_val){
 	//HINT: The CRR value for 100% DC is 47999 (DC = CRR/ARR = CRR/47999)
 	//HINT: The ADC range is approx 0 - 4095
 	//HINT: Scale number from 0-4096 to 0 - 47999
-	return val;
+	return  adc_val * 47999/4096;;
 }
 
 /* USER CODE END 4 */
